@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd">
+<!--  
+	<bean id="c" class="com.yc.Measuresys.Container">
+		<property name="measure" ref="bmim"/>
+		<property name="filter" ref="bmif"/>
+	</bean>
+	<bean id="bmim" class="com.yc.mini.BmiMeasure"></bean>
+	<bean id="bmif" class="com.yc.mini.BmiFilter"></bean>
+-->
+	<bean id="a" class="com.yc.bean.Address">
+		<property name="id" value="1"></property>
+		<property name="name" value="湖南省衡阳市"></property>
+	</bean>
+	<bean id="p" class="com.yc.bean.Person">
+		<property name="name" value="zy"/>
+		<property name="age" value="20"/>
+		<properyt name="address" ref="a"/>
+	</bean>
+	<bean id="p2" class="com.yc.bean.Person"></bean>
+</beans>
