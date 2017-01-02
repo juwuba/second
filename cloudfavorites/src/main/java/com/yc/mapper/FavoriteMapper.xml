@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<!DOCTYPE mapper  
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yc.mapper.FavoriteMapper">
+	<cache type="com.yc.dao.redis.cache.RedisCache"></cache>
+	<select id="tagAll"  resultType="com.yc.bean.Tag">
+		select t_id,t_name,t_count from tag
+	</select>
+	
+	<select id="findinfoNULL" resultType="com.yc.bean.Favorite">
+		select * from favorite where f_tags=''
+	</select>
+	<select id="findinfo" parameterType="com.yc.bean.Tag" resultType="com.yc.bean.Favorite">
+		select * from favorite 
+		<if test="t_name!=null">
+		where f_tags like #{t_name}
+		</if>
+	</select>
+	<insert id="Insertinfo" parameterType="com.yc.bean.Favorite" >
+		insert into favorite(f_id,f_label,f_url,f_tags,f_desc) values (#{f_id},#{f_label},#{f_url},#{f_tags},#{f_desc})
+	</insert>
+	<!--  
+	<select id="filminfo" parameterType="com.yc.bean.Filminfo" resultType="com.yc.bean.Filminfo">
+		select * from filminfo ,filmtype where filmtype.typeid=filminfo.typeid
+			<if test="typeid != null">
+				and filminfo.typeid=#{typeid}
+			</if>
+			<if test="filmname != null">
+				and filmname=#{filmname}
+			</if>
+			<if test="actor != null">
+				and actor=#{actor}
+			</if>
+			<if test="director != null">
+				and director=#{director}
+			</if>
+			<if test="ticketprice != null">
+				and ticketprice>=#{ticketprice}
+			</if>
+			<if test="ticketprice1 != null">
+				and ticketprice &lt;#{ticketprice1}
+			</if>
+			<if test="ticketprice != null and ticketprice1 != null">
+				and ticketprice between #{ticketprice} and #{ticketprice1}
+			</if>
+	</select>
+	
+	<insert id="Insertinfo" parameterType="com.yc.bean.Filminfo">
+		insert into filminfo (typeid,filmname,actor,director,ticketprice) values (#{typeid},#{filmname},#{actor},#{director},#{ticketprice})
+	</insert>-->
+	
+</mapper>  

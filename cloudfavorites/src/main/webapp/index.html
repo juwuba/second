@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8" />
+<link rel="stylesheet" href="styles.css" type="text/css" />
+<script type="text/javascript" src="jquery-1.9.1.js"></script>
+<title>搜藏</title>
+</head>
+<body>
+	<script type="text/javascript">
+		$(function() {
+			flushTags();
+	
+		
+	});
+		function clickTags1(){
+			$.ajax({//单击标签
+				url : "fav.do",
+				data : "op=clickTags1",
+				type : "post",
+				dataType : "JSON",
+				success : function(data) {
+					if (data.code == 1) {
+						alert("成功");
+						var str="";
+						for(var i=0;i<data.obj.length;i++){
+							str+="<a href='javascript:void(0);' style='color: blue; font-size: "+data.obj[i].t_count*15+"px;' target='_blank'>"+data.obj[i].t_name+"</a>";
+						}
+						$(".content_links").html(str);
+					}
+				},
+				error: function(data){
+					alert(111);
+					$(".content_links").html(data.responseText);
+				}
+			});
+		}
+		function clickTags(  id){
+			$.ajax({//提交订单按钮事件
+				url : "fav.do",
+				data : "op=clickTags&id="+id+"",
+				type : "post",
+				dataType : "JSON",
+				success : function(data) {
+					if (data.code == 1) {
+						var str="";
+						for(var i=0;i<data.obj.length;i++){
+							str+="<div style='padding: 6px 10px;'><div><a href='"+data.obj[i].f_url+"' style='color: blue; font-size: 18px;' target='_blank'>"+data.obj[i].f_label+"</a></div><div style='color: black; font-size: 16px;'>"+data.obj[i].f_desc+"</div><div style='color: green; font-size: 14px;'>"+data.obj[i].f_url+"</div></div>";
+						}
+						$(".content_links").html(str);
+					}
+				}
+			});
+		}
+		//刷新标签
+		function flushTags(){
+			$.ajax({//
+				url : "fav.do",
+				data : "op=findTags",
+				type : "post",
+				dataType : "JSON",
+				success : function(data) {
+					if (data.code == 1) {
+						var str = "<tr><td><a href='#' onclick='add();' style='font-weight:bold;'>添加书签</a></td></tr>";
+						str += "<tr><td class='selected_label'><a href='javascript:void(0);' onclick='clickTags(-1)'>全部</a></td></tr>";
+						str+="<tr><td><a href='javascript:void(0);' onclick='clickTags(-2)'>未分类</a></td></tr>";
+						for(var i=0;i<data.obj.length;i++){          
+							str+="<tr><td><a href='javascript:void(0);' onclick='clickTags("+data.obj[i].t_id+")'>"+data.obj[i].t_name+"</a></td></tr>";
+						}
+						str+="<tr><td><a style='font-weight: bold;' href='javascript:void(0);' onclick='clickTags1()'>云图</a></td></tr>";
+						$(".labels_table").html(str);
+					}
+				}
+			});
+		}
+		function add(){
+			window.open ('add.html', 'newwindow', 
+			'height=300, width=400, toolbar=no, menubar=no, scrollbars=no, resizable=no,location=no, status=no');
+		}
+	</script>
+
+	<form name="favForm" method="post"
+		action="/cang/fav.do;jsessionid=FF8C0487A99814B144B07E5633524A0F">
+		<input name="op" value="toList" type="hidden">
+		<div class="banner" valign="top">搜藏</div>
+
+		<table cellspacing="0" cellpadding="0" border="0">
+			<tbody>
+				<tr>
+					<td style="text-align: right;" valign="top">
+					<input type="button" onclick="flushTags()" value="刷新标签"/><br/>
+						<!-- 左边Tag列表 -->
+						<div class="left_labels">
+
+
+							<table class="labels_table" cellspacing="0" cellpadding="0"
+								border="0">
+							</table>
+						</div>
+					</td>
+					<td>
+						<!-- 右边fav内容 -->
+						<div class="content_links">
+
+						</div>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+
+	</form>
+</body>
+</html>

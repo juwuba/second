@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>添加</title>
+</head>
+<script type="text/javascript" src="jquery-1.9.1.js"></script>
+<body>
+<b>搜藏</b><br/>
+名称：<input type="text" id="f_label" value="百度"/><br/><br/>
+链接：<input type="text" id="f_url" value="www.baidu.com"/><br/><br/>
+标签：<input type="text" id="f_tags" value="搜索引擎"/><br/>
+		可以多多个,用","隔开 <br/>
+描述：<input type="text" id="f_desc" value="这是一个号网址"/><br/>
+<input type="button" value="取消" onclick="quxiao()">
+<input type="button" value="提交" onclick="tijiao()">
+
+<script type="text/javascript">
+	function tijiao(){
+		alert("提交");
+		var f_label=$("#f_label").val();
+		var f_url=$("#f_url").val();
+		var f_tags=$("#f_tags").val();
+		var f_desc=$("#f_desc").val();
+		$.ajax({//提交订单按钮事件
+			url : "fav.do",
+			data : "op=insertFavorte&f_label="+f_label+"&f_url="+f_url+"&f_tags="+f_tags+"&f_desc="+f_desc+"",
+			type : "post",
+			dataType : "JSON",
+			success : function(data) {
+				if (data.code == 1) {
+					alert("成功收藏网址");
+				}else{
+					alert("收藏失败");
+				}
+			}
+		});
+	}
+</script>
+</body>
+</html>
